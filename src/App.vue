@@ -1,16 +1,16 @@
 <template>
     <div id="app">
-        <VideoPlayer/>
+        <HelloWorld/>
     </div>
 </template>
 
 <script>
-    import VideoPlayer from './components/VideoPlayer'
+    import HelloWorld from './components/HelloWorld'
 
     export default {
         name: 'App',
         components: {
-            VideoPlayer
+            HelloWorld
         }
     }
 </script>
