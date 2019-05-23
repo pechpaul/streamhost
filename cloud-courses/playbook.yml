@@ -4,10 +4,17 @@
     project_path: /var/www/nodejs
 
   tasks:
-    - name: Set some variable
+    - name: Setting release time
       set_fact:
           release_path: "{{ project_path }}/releases/{{ lookup('pipe','date +%Y%m%d%H%M%S') }}"
           current_path: "{{ project_path }}/current"
+
+    - name: Find current release
+      command: readlink -f current
+      register: current_release_path
+      ignore_errors: yes
+      args:
+        chdir: "{{ project_path }}"
 
     - name: Create new folder
       file:
@@ -36,13 +43,22 @@
               dest={{ current_path }}
               state=link
 
-    - name: Delete old pm2 process
-      command: pm2 delete ws-node
-      ignore_errors: yes
+    - name: Install forever (to run Node.js app)
+      npm: name=forever global=yes state=present
 
-    - name: Delete old dir
+    - name: Check list of Node.js apps running
+      command: forever list
+      register: forever_list
+      changed_when: false
+
+    - name: Start Node.js
+      command: forever start {{ current_path }}/index.js
+      when: forever_list.stdout.find('current_path/index.js') == -1
+
+    - name: restart example Node.js if already running
+      command: forever restart {{ current_path }}/index.js
+      when: forever_list.stdout.find('current_path/index.js') != -1
+
+    - name: Delete old release folder
       shell: rm -rf {{ current_release_path.stdout }}/
       when: current_release_path.stdout != current_path
-
-    - name: run server
-      command: node {{ release_path }}/index.js
