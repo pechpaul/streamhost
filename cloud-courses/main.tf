@@ -1,7 +1,7 @@
 # Authenticate
 provider "scaleway" {
-  organization = "09149d57-bf05-4cce-a94b-5a36ce6dfe5d"
-  token        = "1480c668-80d1-4a4b-827e-f28c9651b22e"
+  organization = "organization id here"
+  token        = "token here"
   region = "ams1"
 }
 data "scaleway_image" "streamhost" {

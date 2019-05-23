@@ -15,8 +15,7 @@ The server is now up at http://51.15.98.200:3000
 TERRAFORM
 Terraform file: main.tf
 
-you need to first set your secret_token, organization id and server name as environment variables under:
-TOKEN, ORG_ID and SERVER_NAME
+put your organization id and token in the file
 
 use 
 terraform init
@@ -27,5 +26,8 @@ then terraform apply
 
 PACKER
 Packer file: packer.json
+
+you need to first set your secret_token, organization id and server name as environment variables under:
+TOKEN, ORG_ID and SERVER_NAME
 
 Just run packer build packer.json
