@@ -51,13 +51,12 @@
       register: forever_list
       changed_when: false
 
+    - name: kill previous server
+      command: killall node
+      ignore_errors: yes
+
     - name: Start Node.js
       command: forever start {{ current_path }}/index.js
-      when: forever_list.stdout.find('current_path/index.js') == -1
-
-    - name: restart example Node.js if already running
-      command: forever restart {{ current_path }}/index.js
-      when: forever_list.stdout.find('current_path/index.js') != -1
 
     - name: Delete old release folder
       shell: rm -rf {{ current_release_path.stdout }}/
