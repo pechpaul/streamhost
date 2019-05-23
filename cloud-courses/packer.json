@@ -20,6 +20,16 @@
       "ssh_private_key_file": "{{user `ssh_private`}}",
       "type": "scaleway",
       "ssh_username": "root"
+    },
+  "provisioners": [
+    {
+      "type": "ansible",
+      "playbook_file": "playbook.yml"
+    },
+    {
+      "type": "shell",
+      "inline": ["sync"]
     }
+
   ]
 }
